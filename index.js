@@ -15,14 +15,14 @@ dotenv.config();
 app.use(morgan("dev"));
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
-// app.use(cors());
-app.use(
-  cors({
-    origin: "https://mern_blogger.onrender.com",
-    // credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
+app.use(cors());
+// app.use(
+//   cors({
+//     origin: "https://mern_blogger.onrender.com",
+//      credentials: true,
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//   })
+// );
 // app.use(function (req, res, next) {
 //   res.setHeader(
 //     "Access-Control-Allow-Origin",
