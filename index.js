@@ -2,20 +2,29 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import morgan from "morgan";
-import userRouter from "./routes/user.js";
-import tourRouter from "./routes/tour.js";
-import profileRouter from "./routes/profile.js";
+
 // import { Server, on } from "socket.io";
 
 import dotenv from "dotenv";
 
 const app = express();
+mongoose
+  .connect(process.env.MONGODB_URL)
+  .then(() => server)
+  .catch((error) => console.log(`${error} did not connect`));
+
 dotenv.config();
 
 app.use(morgan("dev"));
-app.use(express.json({ limit: "30mb", extended: true }));
-app.use(express.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+app.use(express.json({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    // credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 // app.use(
 //   cors({
 //     origin: "https://mern_blogger.onrender.com",
@@ -37,7 +46,7 @@ app.use(cors());
 //   next();
 // });
 
-const devEnv = process.env.NODE_ENV !== "production";
+// const devEnv = process.env.NODE_ENV !== "production";
 
 // const io = new Server({
 //   cors: {
@@ -122,6 +131,10 @@ const devEnv = process.env.NODE_ENV !== "production";
 //   });
 // });
 
+import userRouter from "./routes/user.js";
+import tourRouter from "./routes/tour.js";
+import profileRouter from "./routes/profile.js";
+
 app.use("/users", userRouter); // http://localhost:5000/users/signup
 app.use("/tour", tourRouter);
 app.use("/profile", profileRouter);
@@ -136,8 +149,3 @@ const server = app.listen(port, () =>
 );
 
 // io.listen(server);
-
-mongoose
-  .connect(process.env.MONGODB_URL)
-  .then(() => server)
-  .catch((error) => console.log(`${error} did not connect`));
