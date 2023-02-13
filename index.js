@@ -5,8 +5,7 @@ import morgan from "morgan";
 import userRouter from "./routes/user.js";
 import tourRouter from "./routes/tour.js";
 import profileRouter from "./routes/profile.js";
-// import { Server } from "socket.io";
-import { httpServer } from "socket.io";
+import { Server } from "socket.io";
 
 import dotenv from "dotenv";
 
@@ -40,13 +39,14 @@ app.use(cors());
 
 const devEnv = process.env.NODE_ENV !== "production";
 
-const io = new httpServer({
+const io = new Server({
   cors: {
     origin: `${
       devEnv ? "http://localhost:3000" : "https://mern_blogger.onrender.com"
     }`,
     methods: ["GET", "POST"],
     credentials: true,
+    allowedHeaders: ["https://mern_blogger.onrender.com"],
   },
 });
 
