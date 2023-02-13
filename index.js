@@ -23,49 +23,62 @@ app.use(cors());
 //     methods: ["GET", "POST", "PUT", "DELETE"],
 //   })
 // );
-app.use(function (req, res, next) {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://mern_blogger.onrender.com"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
-});
+// app.use(function (req, res, next) {
+//   res.setHeader(
+//     "Access-Control-Allow-Origin",
+//     "https://mern_blogger.onrender.com"
+//   );
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "GET, POST, PUT, DELETE, PATCH"
+//   );
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   res.setHeader("Access-Control-Allow-Credentials", true);
+//   next();
+// });
 
 const devEnv = process.env.NODE_ENV !== "production";
 
-// const io = new Server({
-//   cors: {
-//     origin: `${
-//       devEnv ? "http://localhost:3000" : "https://mern_blogger.onrender.com"
-//     }`,
-//     methods: ["GET", "POST"],
-//     credentials: true,
-
-//   },
-// });
-
 const io = new Server({
   cors: {
-    origin: "https://mern_blogger.onrender.com",
+    origin: `${
+      devEnv ? "http://localhost:3000" : "https://mern_blogger.onrender.com"
+    }`,
     methods: ["GET", "POST"],
     credentials: true,
   },
-  handlePreflightRequest: (req, res) => {
-    const headers = {
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      "Access-Control-Allow-Origin": "https://mern_blogger.onrender.com",
-      "Access-Control-Allow-Credentials": true,
-    };
-    res.writeHead(200, headers);
-    res.end();
-  },
 });
+
+if (devEnv) {
+  io.engine.on("initial_headers", (headers, req) => {
+    headers["Access-Control-Allow-Origin"] =
+      "https://mern_blogger.onrender.com";
+    headers["Access-Control-Allow-Credentials"] = true;
+  });
+
+  io.engine.on("headers", (headers, req) => {
+    headers["Access-Control-Allow-Origin"] =
+      "https://mern_blogger.onrender.com";
+    headers["Access-Control-Allow-Credentials"] = true;
+  });
+}
+
+// const io = new Server({
+//   cors: {
+//     origin: "https://mern_blogger.onrender.com",
+//     methods: ["GET", "POST"],
+//     credentials: true,
+//   },
+//   handlePreflightRequest: (req, res) => {
+//     const headers = {
+//       "Access-Control-Allow-Headers": "Content-Type, Authorization",
+//       "Access-Control-Allow-Origin": "https://mern_blogger.onrender.com",
+//       "Access-Control-Allow-Credentials": true,
+//     };
+//     res.writeHead(200, headers);
+//     res.end();
+//   },
+// });
 
 let onlineUsers = [];
 
