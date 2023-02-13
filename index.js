@@ -39,22 +39,23 @@ app.use(cors());
 
 const devEnv = process.env.NODE_ENV !== "production";
 
-const io = new Server({
-  cors: {
-    origin: `${
-      devEnv ? "http://localhost:3000" : "https://mern_blogger.onrender.com"
-    }`,
-    methods: ["GET", "POST"],
-    credentials: true,
-    allowedHeaders: ["https://mern_blogger.onrender.com"],
-  },
-});
-
 // const io = new Server({
 //   cors: {
-//     origin: "*",
+//     origin: `${
+//       devEnv ? "http://localhost:3000" : "https://mern_blogger.onrender.com"
+//     }`,
+//     methods: ["GET", "POST"],
+//     credentials: true,
+
 //   },
 // });
+
+const io = new Server({
+  cors: {
+    origin: true,
+    methods: ["GET", "POST"],
+  },
+});
 
 let onlineUsers = [];
 
