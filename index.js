@@ -19,7 +19,7 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(
   cors({
     origin: "https://mern_blogger.onrender.com",
-    credentials: true,
+    // credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
