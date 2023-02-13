@@ -45,7 +45,7 @@ const io = new Server({
       devEnv ? "http://localhost:3000" : "https://mern_blogger.onrender.com"
     }`,
     methods: ["GET", "POST"],
-    credentials: true,
+    //credentials: true,
   },
 });
 
