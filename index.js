@@ -5,7 +5,7 @@ import morgan from "morgan";
 import userRouter from "./routes/user.js";
 import tourRouter from "./routes/tour.js";
 import profileRouter from "./routes/profile.js";
-import { Server } from "socket.io";
+// import { Server, on } from "socket.io";
 
 import dotenv from "dotenv";
 
@@ -39,39 +39,39 @@ app.use(cors());
 
 const devEnv = process.env.NODE_ENV !== "production";
 
-const io = new Server({
-  cors: {
-    origin: `${
-      devEnv ? "http://localhost:3000" : "https://mern_blogger.onrender.com"
-    }`,
-    methods: ["GET", "POST"],
-    credentials: true,
-  },
-});
+// const io = new Server({
+//   cors: {
+//     origin: `${
+//       devEnv ? "http://localhost:3000" : "https://mern_blogger.onrender.com"
+//     }`,
+//     methods: ["GET", "POST"],
+//     credentials: true,
+//   },
+// });
 
-if (devEnv) {
-  io.engine.on("initial_headers", (headers, req) => {
-    headers["Access-Control-Allow-Origin"] = "http://localhost:3000";
-    headers["Access-Control-Allow-Credentials"] = true;
-  });
+// if (devEnv) {
+//   io.engine.on("initial_headers", (headers, req) => {
+//     headers["Access-Control-Allow-Origin"] = "http://localhost:3000";
+//     headers["Access-Control-Allow-Credentials"] = true;
+//   });
 
-  io.engine.on("headers", (headers, req) => {
-    headers["Access-Control-Allow-Origin"] = "http://localhost:3000";
-    headers["Access-Control-Allow-Credentials"] = true;
-  });
-} else {
-  io.engine.on("initial_headers", (headers, req) => {
-    headers["Access-Control-Allow-Origin"] =
-      "https://mern_blogger.onrender.com";
-    headers["Access-Control-Allow-Credentials"] = true;
-  });
+//   io.engine.on("headers", (headers, req) => {
+//     headers["Access-Control-Allow-Origin"] = "http://localhost:3000";
+//     headers["Access-Control-Allow-Credentials"] = true;
+//   });
+// } else {
+//   io.engine.on("initial_headers", (headers, req) => {
+//     headers["Access-Control-Allow-Origin"] =
+//       "https://mern_blogger.onrender.com";
+//     headers["Access-Control-Allow-Credentials"] = true;
+//   });
 
-  io.engine.on("headers", (headers, req) => {
-    headers["Access-Control-Allow-Origin"] =
-      "https://mern_blogger.onrender.com";
-    headers["Access-Control-Allow-Credentials"] = true;
-  });
-}
+//   io.engine.on("headers", (headers, req) => {
+//     headers["Access-Control-Allow-Origin"] =
+//       "https://mern_blogger.onrender.com";
+//     headers["Access-Control-Allow-Credentials"] = true;
+//   });
+// }
 
 // const io = new Server({
 //   cors: {
@@ -90,37 +90,37 @@ if (devEnv) {
 //   },
 // });
 
-let onlineUsers = [];
+// let onlineUsers = [];
 
-const addNewUser = (username, socketId) => {
-  !onlineUsers.some((user) => user.username === username) &&
-    onlineUsers.push({ username, socketId });
-};
+// const addNewUser = (username, socketId) => {
+//   !onlineUsers.some((user) => user.username === username) &&
+//     onlineUsers.push({ username, socketId });
+// };
 
-const removeUser = (socketId) => {
-  return onlineUsers.filter((user) => user.socketId !== socketId);
-};
+// const removeUser = (socketId) => {
+//   return onlineUsers.filter((user) => user.socketId !== socketId);
+// };
 
-const getUser = (username) => {
-  return onlineUsers.find((user) => user.username === username);
-};
+// const getUser = (username) => {
+//   return onlineUsers.find((user) => user.username === username);
+// };
 
-io.on("connection", (socket) => {
-  socket.on("newUser", (username) => {
-    addNewUser(username, socket.id);
-  });
+// io.on("connection", (socket) => {
+//   socket.on("newUser", (username) => {
+//     addNewUser(username, socket.id);
+//   });
 
-  socket.on("sendNotification", ({ senderName, receiverName }) => {
-    const receiver = getUser(receiverName);
-    io.to(receiver?.socketId).emit("getNotification", {
-      senderName,
-    });
-  });
+//   socket.on("sendNotification", ({ senderName, receiverName }) => {
+//     const receiver = getUser(receiverName);
+//     io.to(receiver?.socketId).emit("getNotification", {
+//       senderName,
+//     });
+//   });
 
-  socket.on("disconnect", () => {
-    removeUser(socket.id);
-  });
-});
+//   socket.on("disconnect", () => {
+//     removeUser(socket.id);
+//   });
+// });
 
 app.use("/users", userRouter); // http://localhost:5000/users/signup
 app.use("/tour", tourRouter);
