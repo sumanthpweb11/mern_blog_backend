@@ -54,6 +54,7 @@ const io = new Server({
   cors: {
     origin: "https://mern_blogger.onrender.com",
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
