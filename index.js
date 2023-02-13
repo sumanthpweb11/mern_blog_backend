@@ -6,6 +6,7 @@ import userRouter from "./routes/user.js";
 import tourRouter from "./routes/tour.js";
 import profileRouter from "./routes/profile.js";
 import { Server } from "socket.io";
+
 import dotenv from "dotenv";
 
 const app = express();
@@ -37,13 +38,19 @@ app.use(function (req, res, next) {
 
 const devEnv = process.env.NODE_ENV !== "production";
 
+// const io = new Server({
+//   cors: {
+//     origin: `${
+//       devEnv ? "http://localhost:3000" : "https://mern_blogger.onrender.com"
+//     }`,
+//     methods: ["GET", "POST"],
+//     credentials: true,
+//   },
+// });
+
 const io = new Server({
   cors: {
-    origin: `${
-      devEnv ? "http://localhost:3000" : "https://mern_blogger.onrender.com"
-    }`,
-    methods: ["GET", "POST"],
-    credentials: true,
+    origin: "*",
   },
 });
 
