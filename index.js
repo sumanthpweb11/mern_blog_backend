@@ -52,7 +52,7 @@ const devEnv = process.env.NODE_ENV !== "production";
 
 const io = new Server({
   cors: {
-    origin: true,
+    origin: "https://mern_blogger.onrender.com",
     methods: ["GET", "POST"],
   },
 });
