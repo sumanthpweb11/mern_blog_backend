@@ -51,6 +51,16 @@ const io = new Server({
 
 if (devEnv) {
   io.engine.on("initial_headers", (headers, req) => {
+    headers["Access-Control-Allow-Origin"] = "http://localhost:3000";
+    headers["Access-Control-Allow-Credentials"] = true;
+  });
+
+  io.engine.on("headers", (headers, req) => {
+    headers["Access-Control-Allow-Origin"] = "http://localhost:3000";
+    headers["Access-Control-Allow-Credentials"] = true;
+  });
+} else {
+  io.engine.on("initial_headers", (headers, req) => {
     headers["Access-Control-Allow-Origin"] =
       "https://mern_blogger.onrender.com";
     headers["Access-Control-Allow-Credentials"] = true;
