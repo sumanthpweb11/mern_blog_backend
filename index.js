@@ -56,6 +56,15 @@ const io = new Server({
     methods: ["GET", "POST"],
     credentials: true,
   },
+  handlePreflightRequest: (req, res) => {
+    const headers = {
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      "Access-Control-Allow-Origin": "https://mern_blogger.onrender.com",
+      "Access-Control-Allow-Credentials": true,
+    };
+    res.writeHead(200, headers);
+    res.end();
+  },
 });
 
 let onlineUsers = [];
