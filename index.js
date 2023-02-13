@@ -15,13 +15,14 @@ dotenv.config();
 app.use(morgan("dev"));
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    // credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
+app.use(cors());
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000",
+//     // credentials: true,
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//   })
+// );
 app.use(function (req, res, next) {
   res.setHeader(
     "Access-Control-Allow-Origin",
@@ -38,21 +39,21 @@ app.use(function (req, res, next) {
 
 const devEnv = process.env.NODE_ENV !== "production";
 
-// const io = new Server({
-//   cors: {
-//     origin: `${
-//       devEnv ? "http://localhost:3000" : "https://mern_blogger.onrender.com"
-//     }`,
-//     methods: ["GET", "POST"],
-//     credentials: true,
-//   },
-// });
-
 const io = new Server({
   cors: {
-    origin: "*",
+    origin: `${
+      devEnv ? "http://localhost:3000" : "https://mern_blogger.onrender.com"
+    }`,
+    methods: ["GET", "POST"],
+    credentials: true,
   },
 });
+
+// const io = new Server({
+//   cors: {
+//     origin: "*",
+//   },
+// });
 
 let onlineUsers = [];
 
