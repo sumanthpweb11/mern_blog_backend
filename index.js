@@ -8,10 +8,6 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 
 const app = express();
-mongoose
-  .connect(process.env.MONGODB_URL)
-  .then(() => server)
-  .catch((error) => console.log(`${error} did not connect`));
 
 dotenv.config();
 
@@ -134,6 +130,11 @@ app.get("/", (req, res) => {
 });
 
 const port = process.env.PORT || 8000;
+
+mongoose
+  .connect(process.env.MONGODB_URL)
+  .then(() => server)
+  .catch((error) => console.log(`${error} did not connect`));
 
 const server = app.listen(port, () =>
   console.log(`Server running on port ${port}`)
