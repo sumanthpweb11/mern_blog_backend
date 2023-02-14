@@ -21,30 +21,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: "http://localhost:3000",
-    // credentials: true,
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
-// app.use(
-//   cors({
-//     origin: "https://mern_blogger.onrender.com",
-//      credentials: true,
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//   })
-// );
-// app.use(function (req, res, next) {
-//   res.setHeader(
-//     "Access-Control-Allow-Origin",
-//     "https://mern_blogger.onrender.com"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET, POST, PUT, DELETE, PATCH"
-//   );
-//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//   res.setHeader("Access-Control-Allow-Credentials", true);
-//   next();
-// });
+
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, PATCH"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+});
 
 // const devEnv = process.env.NODE_ENV !== "production";
 
